@@ -43,33 +43,37 @@
  	-->
 </div>
 <div class="container">
-	<form id="frm01" class="form-inline"  method="post">
+	<form id="frm01" class="form"  method="post">
   	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-	    <input class="form-control mr-sm-2" placeholder="제목" />
-	    <input class="form-control mr-sm-2" placeholder="내용" />
+	    <input name="suject" value="${sch.subject}" class="form-control mr-sm-2" placeholder="제목" />
+	    <input name="writer" value="${sch.writer}" class="form-control mr-sm-2" placeholder="내용" />
 	    <button class="btn btn-info" type="submit">Search</button>
  	</nav>
 	</form>
    <table class="table table-hover table-striped">
    	<col width="10%">
-   	<col width="50%">
+   	<col width="45%">
    	<col width="15%">
    	<col width="15%">
-   	<col width="10%">
+   	<col width="15%">
     <thead>
     
       <tr class="table-success text-center">
         <th>번호</th>
         <th>제목</th>
         <th>작성자</th>
-        <th>작성일</th>
-        <th>조회</th>
+        <th>등록일</th>
+        <th>조회수</th>
       </tr>
     </thead>	
     <tbody>
-    	<tr><td></td><td></td><td></td><td></td><td></td></tr>
-    	<tr><td></td><td></td><td></td><td></td><td></td></tr>
-    	<tr><td></td><td></td><td></td><td></td><td></td></tr>
+    	<c:forEach var="board" items="${list}">
+    	<tr><td>${board.no}</td>
+    		<td>${board.subject}</td>
+    		<td>${board.writer}</td>
+    		<td><fmt:formatDate value="${board.regdte}"/></td>
+    		<td>${board.readcnt}</td></tr>
+    	</c:forEach>
     </tbody>
 	</table>    
     

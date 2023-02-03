@@ -66,8 +66,60 @@
 			<property name="suffix" value=".jsp"/>
 	2)  기타 DB를 위한 설정 파일 위치 선언.
 
-
-# 
+# 메인리스트 화면 처리(1단계) - 기본 조회
+1. controller를 통한 초기 화면 호출
+	url mapping
+2. 초기 조회 화면 구현(UI구현)
+	1) form 검색을 위한 요청값 name 선언 : subject, writer
+	2) list화면 구성 
+		no, subject, writer, regdte, readcnt
+		번호, 제목, 작성자, 등록일, 조회수
+--------------------------------		
+3. DB처리를 위한 구성
+	1) db생성/기본 데이터 입력
+	2) 조회를 위한 sql
+		select *
+		from board
+		where 1=1
+		and subject like '%'||''||'%'
+		and writer liek '%'||''||'%'
+		order by regdte desc;
+	3) vo 작성
+		- 검색을 위한 BoardSch
+			subject 제목
+			content 내용
+			-- 페이지 처리를 위해 추후, 추가..
+		- 데이터 리스트를 위한 Board
+			no 글번호 
+			refno 답글번호
+			subject 제목
+			content 내용
+			writer 작성자
+			readcnt 조회수
+			regdte 등록일
+			uptdte 수정일
+	4) 공통 mybatis 등록 alias board, boardsch
+		mapper등록		
+	5) dao
+		public List<Board> boardList(BoardSch sch); 		
+	6) mappper 처리
+		<select id="boardList" resultType="board"
+			parameterType="boardsch">
+			select *
+			from board
+			where 1=1
+			and subject like '%'||#{subject}||'%'
+			and writer like '%'||#{writer}||'%'	
+		</select>
+4. 비지니스 로직 처리(service)				
+	1) subect, writer null에 대한 공백 처리			
+5. controller
+	1) public String boardList(Board sch, Model d) 
+		모델 데이터 처리 
+		list
+6. 화면단 list <c:forEach var="board" items="${list}">
+				 ${board.no}... 	
+			 		
  			
 		
 			
