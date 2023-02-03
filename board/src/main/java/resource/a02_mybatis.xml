@@ -7,6 +7,7 @@
 		<typeAlias alias="board" type="board.vo.Board"/>
 	</typeAliases>
 	<mappers>
+	
 		<mapper resource="resource/a03_Mapper.xml"/>
 	</mappers>
 </configuration>
