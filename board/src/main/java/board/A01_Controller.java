@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class A01_Controller {
 
-	@RequestMapping("/list")
+	@RequestMapping("/list.do")
 	public String boardList() {
 		return "a01_boardList";
 	}
