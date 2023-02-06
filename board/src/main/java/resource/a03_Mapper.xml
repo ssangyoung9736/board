@@ -11,5 +11,11 @@
 		and subject like '%'||#{subject}||'%'
 		and writer like '%'||#{writer}||'%'	
 	</select>
+	<insert id="insertBoard" parameterType="board">
+		INSERT INTO board values(board_seq.nextval,
+			#{refno}, #{subject},#{content},#{writer},
+			0, sysdate, sysdate)			
+	</insert>	
+	
 </mapper>		
 		

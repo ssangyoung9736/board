@@ -45,6 +45,64 @@
 			- 조회화면에서 상세화면 로딩
 
 # 기본 스프링 환경 설정
+0. 설정에 필요한 파일과 처리 구조
+	ex) http://localhost:7080/board/list.do
+	- web.xml(board\src\main\webapp\WEB-INF\web.xml)
+		url로 요청했을 때, 처음 호출 하는 파일 : do로 url이 끝날 때 스프링 호출
+    		<url-pattern>*.do</url-pattern>
+		스프링이 처리되는 front 컨트롤러와 컨테이너 설정 위치를 지정
+			<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+			<param-value>classpath:resource/a01_container.xml</param-value>
+		요청값에 대한 한글 encoding 처리
+    		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+	- a01_container.xml(board\src\main\java\resource\a01_container.xml)
+		선언된 클래스를 객체로 로딩
+			- controller, service, dao
+		공통 설정 파일 위치를 선언해서 해당 파일에서 key=value형식으로 설정 데이터 처리
+		<context:property-placeholder location="classpath:resource/a00_config"/> 
+			
+		공통 mybatis 설정 정보
+			<property name="configLocation" value="classpath:resource/a02_mybatis.xml"/>
+		mybatis에 의해 실제 객체가 만들어 지는 dao 인터페이스 위치
+			<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+				<property name="basePackage" value="board"/>
+		view단에 대한 설정 정보
+			- jsp/json view등
+			- 파일업로드/다운로드 view
+	- a00_config(board\src\main\java\resource\a00_config)
+		공통 key를 통해 효과적으로 설정 정보 활용
+	
+	- a02_mybatis.xml(board\src\main\java\resource\a02_mybatis.xml)
+		mapper.xml에서 간략하게 사용할 vo 선언
+		<typeAlias alias="boardsch" type="board.vo.BoardSch"/>
+		사용할 mapper.xml 설정 위치 지정
+		<mapper resource="resource/a03_Mapper.xml"/> 
+	- a03_mapper.xml(board\src\main\java\resource\a03_mapper.xml)
+		dao 인터페이스를 상속받은 실제 DB연결하여 결과값을 가져오는 객체를 만드는 xml 파일
+		인터페이스, 	id, 	매개변수와 		리턴값이 dao와 연동 규칙을 지켜야 한다.
+		namespace	메서드명	parameterType	resultType/reusltMap
+		<mapper namespace="board.A03_Dao">
+			<select id="boardList" resultType="board"
+				parameterType="boardsch">
+				select *
+				from board
+				where 1=1		
+	
+	- A01_Controller.java(controller)
+		컨테이너에서 객체 로딩
+		@Autowired에 의해 소스상 자동 객체 할당.
+	- A02_Service.java(service)
+		컨테이너에서 객체 로딩
+		@Autowired에 의해 소스상 자동 객체 할당.	
+	- A03_Dao.java(dao)
+		dao 인터페이스(껍데기) 
+		==> 컨터이너()에서 패키지(a01_container.xml)를 지정하고, 
+		XXXMapper.xml에서 컨테이너에 연동 규칙에 의해 실제 객체가
+		만들어 진다.
+	- Board.java,BoardSch.java(vo)
+		매개변수나 리턴값을 통해 데이터를 처리해주는 객체..
+
+
 1. 컨테이너 분리
     <init-param>
     	<param-name>contextConfigLocation</param-name>
@@ -119,7 +177,71 @@
 		list
 6. 화면단 list <c:forEach var="board" items="${list}">
 				 ${board.no}... 	
-			 		
+
+# 데이터 등록 처리
+1. 주요 프로세스
+	1) 리스트 화면에서 등록 버튼 클릭시 등록 화면 이동
+	2) 등록 화면
+		-  등록할 form 데이터 입력 및 등록 처리
+			제목(subject), 작성자(writer), 내용(content)
+			답글(refno-hidden)
+			첨부파일
+		-  기능 버튼 : 등록, 조회화면
+	3) 등록 컨트롤러
+		- 등록 서비스, Dao를 통해 등록 처리
+		- 등록 완료 메시지 모델 처리
+	4) 등록 화면
+		- 등록 완료 메시지 및 조회화면 이동/계속 등록 처리
+2. 개발 순서
+	1) DB
+		- 등록 sql 작성
+			INSERT INTO board values(board_seq.nextval,
+				#{refno}, #{subject},#{content},#{writer},
+				0, sysdate, sysdate)			
+		- 등록을 위한 vo
+		- 공통 mybatis
+		
+		- dao interface
+			public void insertBoard(Board ins);	
+		- mapper
+			<insert id="insertBoard" parameterType="board">
+				INSERT INTO board values(board_seq.nextval,
+					#{refno}, #{subject},#{content},#{writer},
+					0, sysdate, sysdate)			
+			</insert>
+	2) service
+			public void insertBoard(Board ins){
+				dao.insertBoard(ins);
+			}
+		-------------------------------------------------	
+	3) controller
+		- 등록을 위한 form controller 메서드 구현
+			@GetMapping("/insertFrm.do")
+			public String inserFrm(){
+				return "a02_insertBoard";
+			}
+		- 등록 처리 controller 메서드 구현
+			@PostMapping("/insert.do")
+			public String insert(Board ins, Model d){
+				service.insertBoard(ins);
+				d.addAttribute("msg","등록성공");
+				return "02_inserBoard";
+			}
+	4) 뷰
+		- 화면리스트 뷰에서 등록 버튼 클릭시, 등록 처리 화면이동
+			<button type="button" onclick="insertFrm()">
+			function insertFrm(){
+				location.href="${path}/insertFrm.do"
+			}
+			<button>조회화면</button>
+		- 등록form을 위한 화면 구현..
+			#{refno}, #{subject},#{content},#{writer},
+			<input name="refno" value="0"/>
+			<input name="subject" value=""/>...
+		
+	
+			
+			
  			
 		
 			

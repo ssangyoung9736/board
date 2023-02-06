@@ -31,6 +31,9 @@
 		<%-- 
 		
 		--%>	
+		$("#regBtn").click(function(){
+			location.href="${path}/insertFrm.do"
+		})
 	});
 </script>
 </head>
@@ -48,6 +51,7 @@
 	    <input name="subject" value="${sch.subject}" class="form-control mr-sm-2" placeholder="제목" />
 	    <input name="writer" value="${sch.writer}" class="form-control mr-sm-2" placeholder="내용" />
 	    <button class="btn btn-info" type="submit">Search</button>
+	    <button class="btn btn-success" id="regBtn" type="button">등록</button>
  	</nav>
 	</form>
    <table class="table table-hover table-striped">

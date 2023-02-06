@@ -17,4 +17,7 @@ public class A02_Service {
 		if(sch.getWriter()==null) sch.setWriter("");
 		return dao.boardList(sch);
 	}
+	public void insertBoard(Board ins) {
+		dao.insertBoard(ins);
+	}
 }
