@@ -61,6 +61,10 @@
 				location.href="${path}/list.do"
 			}
 		}
+		
+		$("#goMain").click(function(){
+			location.href="${path}/list.do"			
+		});
 	
 	});
 </script>
@@ -95,8 +99,8 @@
           </div> 
                     
           <div class="mb-4"></div>
-          <button class="btn btn-primary btn-lg btn-block" type="submit">등록 완료</button>
-          <button class="btn btn-info btn-lg btn-block" type="button">조회 화면</button>
+          <button class="btn btn-primary btn-lg btn-block" type="submit">게시물 등록</button>
+          <button id="goMain" class="btn btn-info btn-lg btn-block" type="button">조회 화면</button>
         </form>
       </div>
     </div>
