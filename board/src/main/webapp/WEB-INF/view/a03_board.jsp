@@ -142,9 +142,9 @@
             </div>
           </div> 
           <div class="mb-4"></div>
-          <button id="regBtn" class="btn btn-info  btn-lg btn-block" type="button">게시물 수정</button>
-          <button id="delBtn" class="btn btn-warning btn-lg btn-block" type="button">게시물 삭제</button>
-          <button id="goMain" class="btn btn-success  btn-lg btn-block" type="button">조회 화면</button>
+          <button id="regBtn" class="btn btn-warning btn-lg btn-block" type="button">게시물 수정</button>
+          <button id="delBtn" class="btn btn-danger btn-lg btn-block" type="button">게시물 삭제</button>
+          <button id="goMain" class="btn btn-info   btn-lg btn-block" type="button">조회 화면</button>
         </form>
       </div>
     </div>
