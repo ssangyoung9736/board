@@ -5,6 +5,6 @@ jdbc.url=jdbc:oracle:thin:@localhost:1521:xe
 jdbc.user=scott
 jdbc.pass=tiger
 # 2. 파일업로드 정보(서버 위치 정보)
-
+user.upload=C:/Users/user/git/board3/board/src/main/webapp/z01_upload/
 # 3. 메일 발송...
 
