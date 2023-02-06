@@ -65,6 +65,21 @@
 		$("#goMain").click(function(){
 			location.href="${path}/list.do"			
 		});
+		$("#regBtn").click(function(){
+			var isInValid = false
+			for(var idx=0;idx<$(".ckValid").length;idx++){
+				if($(".ckValid").eq(idx).val()==""){
+					alert("입력하여야 등록 가능합니다.")
+					$(".ckValid").eq(idx).focus()
+					isInValid = true
+					break;
+				}
+			}
+			if(isInValid){
+				return
+			}
+			$("form").submit()
+		})
 	
 	});
 </script>
@@ -78,28 +93,28 @@
         	<input type="hidden" name="refno" value="0"/>
           <div class="mb-3">
             <label for="subject">제목</label>
-            <input name="subject" type="text" class="form-control" id="subject" placeholder="제목 입력" required>
+            <input name="subject" type="text" class="form-control  ckValid" id="subject" placeholder="제목 입력" required>
             <div class="invalid-feedback">
               제목을 입력해주세요.
             </div>
           </div>
           <div class="mb-3">
             <label for="writer">작성자</label>
-            <input type="text" name="writer" class="form-control" id="작성자" placeholder="작성자를 입력" required>
+            <input type="text" name="writer" class="form-control ckValid" id="작성자" placeholder="작성자를 입력" required>
             <div class="invalid-feedback">
               작성자를 입력해주세요.
             </div>
           </div>   
           <div class="mb-3">
             <label for="content">내용</label>
-            <textarea name="content"  class="form-control" id="content" placeholder="내용 입력" required rows="5" ></textarea>
+            <textarea name="content"  class="form-control  ckValid" id="content" placeholder="내용 입력" required rows="5" ></textarea>
             <div class="invalid-feedback">
               내용를 입력해주세요.
             </div>
           </div> 
                     
           <div class="mb-4"></div>
-          <button class="btn btn-primary btn-lg btn-block" type="submit">게시물 등록</button>
+          <button id="regBtn" class="btn btn-primary btn-lg btn-block" type="button">게시물 등록</button>
           <button id="goMain" class="btn btn-info btn-lg btn-block" type="button">조회 화면</button>
         </form>
       </div>
