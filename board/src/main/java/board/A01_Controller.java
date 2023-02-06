@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import board.vo.Board;
 import board.vo.BoardSch;
@@ -31,5 +32,12 @@ public class A01_Controller {
 		service.insertBoard(ins);
 		d.addAttribute("msg","등록성공");
 		return "a02_insertBoard";
+	}	
+	@GetMapping("/board.do")
+	public String getBoard(@RequestParam("no") 
+		int no, Model d){
+		service.uptReadCnt(no);
+		d.addAttribute("board",service.getBoard(no));
+		return "a03_board";
 	}	
 }

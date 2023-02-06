@@ -35,6 +35,9 @@
 			location.href="${path}/insertFrm.do"
 		})
 	});
+	function goDetail(no){
+		location.href="${path}/board.do?no="+no
+	}	
 </script>
 </head>
 
@@ -72,7 +75,7 @@
     </thead>	
     <tbody>
     	<c:forEach var="board" items="${list}">
-    	<tr><td>${board.no}</td>
+    	<tr  ondblclick="goDetail(${board.no})"><td>${board.no}</td>
     		<td>${board.subject}</td>
     		<td>${board.writer}</td>
     		<td><fmt:formatDate value="${board.regdte}"/></td>

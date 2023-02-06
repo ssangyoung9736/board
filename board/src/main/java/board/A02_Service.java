@@ -20,4 +20,10 @@ public class A02_Service {
 	public void insertBoard(Board ins) {
 		dao.insertBoard(ins);
 	}
+	public Board getBoard(int no) {
+		return dao.getBoard(no);
+	}
+	public void uptReadCnt(int no) {
+		dao.uptReadCnt(no);
+	}		
 }
