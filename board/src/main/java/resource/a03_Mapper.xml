@@ -15,15 +15,17 @@
 		INSERT INTO board values(board_seq.nextval,
 			#{refno}, #{subject},#{content},#{writer},
 			0, sysdate, sysdate)			
-	</insert>	
-	<select id="getBoard" resultType="board" parameterType="int">
-		SELECT * FROM board
-		WHERE NO = #{no}			
-	</select>
+	</insert>
+	<!-- 조회수 처리 -->	
 	<update id="uptReadCnt" parameterType="int">
 		UPDATE BOARD 
 			SET READCNT = readcnt+1
 	  	WHERE NO = #{no}				
 	</update>	
+	<select id="getBoard" resultType="board" parameterType="int">
+		SELECT * FROM board
+		WHERE NO = #{no}			
+	</select>
+	
 </mapper>		
 		
