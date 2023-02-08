@@ -156,11 +156,20 @@
           </div> 
           <div class="mb-3">
             <label >첨부파일</label>
-            <input  value="${board.fname}" type="text" class="form-control" placeholder="첨부 입력" required>
+            <input id="downFile"  value="${board.fname}" type="text" class="form-control" placeholder="첨부 입력" required>
             <div class="invalid-feedback">
               첨부파일 입력해주세요.
 	         </div>
-		  </div>          
+		  </div>    
+		  <script type="text/javascript">
+		  	$("#downFile").click(function(){
+		  		if(confirm($(this).val()+"을 다운로드하시겠습니까?")){
+		  			location.href="${path}/download.do?fname="+$(this).val()
+		  		}
+		  		
+		  	})
+		  
+		  </script>      
           
           <div class="mb-4"></div>
           <button id="uptBtn" class="btn btn-warning btn-lg btn-block" type="button">게시물 수정</button>

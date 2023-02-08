@@ -40,4 +40,13 @@ public class A01_Controller {
 		d.addAttribute("board",service.getBoard(no));
 		return "a03_board";
 	}	
+	
+	//  download.do?fname=@@@@
+	@GetMapping("/download.do")
+	public String download(@RequestParam("fname")
+		String fname, Model d) {
+		d.addAttribute("downloadFile", fname);
+		return "downloadView";
+	}
+	
 }

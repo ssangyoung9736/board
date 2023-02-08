@@ -52,6 +52,7 @@ public class A02_Service {
 	}		
 	public Board getBoard(int no) {
 		Board b = dao.getBoard(no);
+		// 해당 번호에 파일 정보를 가져오는 처리..
 		b.setFname(dao.getBoardFile(no));
 		return b;
 	}	
