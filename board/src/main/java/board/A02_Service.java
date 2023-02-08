@@ -25,13 +25,14 @@ public class A02_Service {
 	public void uptReadCnt(int no) {
 		dao.uptReadCnt(no);
 	}	
-	@Value("${user.upload")
+	@Value("${user.upload}")
 	private String upload;
 
 	private void uploadFile(MultipartFile f){
 		String fname = f.getOriginalFilename();
 		File fObj = new File(upload+fname);
 		try{
+			System.out.println("## 파일 업로드 처리:"+upload+fname);
 			f.transferTo(fObj);
 		}catch(Exception e){
 				System.out.println("업로드예외:"+e.getMessage());
