@@ -38,6 +38,7 @@ public class A02_Service {
 		}			
 	}
 	public void insertBoard(Board ins) {
+		dao.insertBoard(ins);
 		String fname = ins.getReport().getOriginalFilename();
 		if( !fname.equals("") ){
 			uploadFile(ins.getReport());
@@ -46,7 +47,7 @@ public class A02_Service {
 			f.setEtc(ins.getSubject());
 			dao.insertUploadFile(f);
 		}
-		dao.insertBoard(ins);
+		
 	}		
 	public Board getBoard(int no) {
 		Board b = dao.getBoard(no);

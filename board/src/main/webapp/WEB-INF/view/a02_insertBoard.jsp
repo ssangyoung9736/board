@@ -80,7 +80,9 @@
 			}
 			$("form").submit()
 		})
-	
+        $(".custom-file-input").on("change",function(){
+        	$(this).next(".custom-file-label").text($(this).val())
+        })		
 	});
 </script>
 </head>
@@ -89,7 +91,7 @@
     <div class="input-form-backgroud row">
       <div class="input-form col-md-12 mx-auto">
         <h4 class="mb-3">게시판 등록</h4>
-        <form method="post" action="${path}/insert.do" class="validation-form" novalidate>
+        <form method="post" enctype="multipart/form-data" action="${path}/insert.do" class="validation-form" novalidate>
         	<input type="hidden" name="refno" value="0"/>
           <div class="mb-3">
             <label for="subject">제목</label>
@@ -112,6 +114,13 @@
               내용를 입력해주세요.
             </div>
           </div> 
+          <div class="mb-3">
+         	<div class="custom-file">
+		        <input type="file" name="report" class="custom-file-input" id="file01">
+		        <label class="custom-file-label" for="file01">파일을 선택하세요!</label>
+			</div>
+		  </div>	
+ 
                     
           <div class="mb-4"></div>
           <button id="regBtn" class="btn btn-primary btn-lg btn-block" type="button">게시물 등록</button>

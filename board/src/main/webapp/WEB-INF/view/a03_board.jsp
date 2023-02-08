@@ -154,6 +154,14 @@
               내용를 입력해주세요.
             </div>
           </div> 
+          <div class="mb-3">
+            <label >첨부파일</label>
+            <input  value="${board.fname}" type="text" class="form-control" placeholder="첨부 입력" required>
+            <div class="invalid-feedback">
+              첨부파일 입력해주세요.
+	         </div>
+		  </div>          
+          
           <div class="mb-4"></div>
           <button id="uptBtn" class="btn btn-warning btn-lg btn-block" type="button">게시물 수정</button>
           <button id="delBtn" class="btn btn-danger btn-lg btn-block" type="button">게시물 삭제</button>
