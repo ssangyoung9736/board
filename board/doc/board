@@ -47,7 +47,7 @@
 # 기본 스프링 환경 설정
 0. 설정에 필요한 파일과 처리 구조
 	ex) http://localhost:7080/board/list.do
-	- web.xml(board\src\main\webapp\WEB-INF\web.xml)
+	- web.xml(board/src/main/webapp/WEB-INF/web.xml)
 		url로 요청했을 때, 처음 호출 하는 파일 : do로 url이 끝날 때 스프링 호출
     		<url-pattern>*.do</url-pattern>
 		스프링이 처리되는 front 컨트롤러와 컨테이너 설정 위치를 지정
@@ -55,7 +55,7 @@
 			<param-value>classpath:resource/a01_container.xml</param-value>
 		요청값에 대한 한글 encoding 처리
     		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-	- a01_container.xml(board\src\main\java\resource\a01_container.xml)
+	- a01_container.xml(board/src/main/java/resource/a01_container.xml)
 		선언된 클래스를 객체로 로딩
 			- controller, service, dao
 		공통 설정 파일 위치를 선언해서 해당 파일에서 key=value형식으로 설정 데이터 처리
@@ -69,15 +69,15 @@
 		view단에 대한 설정 정보
 			- jsp/json view등
 			- 파일업로드/다운로드 view
-	- a00_config(board\src\main\java\resource\a00_config)
+	- a00_config(board/src/main/java/resource/a00_config)
 		공통 key를 통해 효과적으로 설정 정보 활용
 	
-	- a02_mybatis.xml(board\src\main\java\resource\a02_mybatis.xml)
+	- a02_mybatis.xml(board/src/main/java/resource/a02_mybatis.xml)
 		mapper.xml에서 간략하게 사용할 vo 선언
 		<typeAlias alias="boardsch" type="board.vo.BoardSch"/>
 		사용할 mapper.xml 설정 위치 지정
 		<mapper resource="resource/a03_Mapper.xml"/> 
-	- a03_mapper.xml(board\src\main\java\resource\a03_mapper.xml)
+	- a03_mapper.xml(board/src/main/java/resource/a03_mapper.xml)
 		dao 인터페이스를 상속받은 실제 DB연결하여 결과값을 가져오는 객체를 만드는 xml 파일
 		인터페이스, 	id, 	매개변수와 		리턴값이 dao와 연동 규칙을 지켜야 한다.
 		namespace	메서드명	parameterType	resultType/reusltMap
@@ -304,6 +304,116 @@
 			<input  value="${board.regdte}"/>
 			<input  value="${board.uptdte}"/>
 			<textarea name="content">${board.content}</textarea>
+# 게시판 첨부파일 처리 파일업로드
+1. 진행 프로세스
+	1) 등록화면에서 첨부파일을 등록하여 등록 처리를 하면
+	2) DB에 첨부파일정보가 등록되고, 
+	3) 특정 폴드에 첨부파일이 업로드 된다.
+	4) 해당 게시물의 상세정보를 확인하면 등록된 파일 정보도 함께 볼 수 있다.
+	5) 파일명을 클릭시, 다운로드되어 해당 첨부파일 내용을 볼 수 있다.
+2. 개발 순서
+	1) 핵심 소스	
+		공통환경 설정(업로드경로):resource/a00_config
+			file.upload=webapp하위에 z01_upload폴드 지정
+		컨테이너(업로드뷰):resource/a01_container.xml
+			<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+		컨트롤러 호출(업로드기능메서드추가):A01_Controller.java
+			/insert.do : 추가 코드 없음..
+		서비스(업로드 처리 메서드 추가):A02_Service.java
+			private String uploadFile(MultiPartFile f) // 특정 위치에 업로드
+			public void insertBoard(Board ins) {
+				BoardFile f = new BoardFile()
+				dao.insertUploadFile(f);
+				uploadFile(ins.getReport());
+		DB처리(업로드 정보 저장)
+			A03_Dao.java
+				public void insertUploadFile(BoardFile f);
+			a02_mybatis.xml
+				BoardFile ==> boardFile
+			a03_Mapper.xml
+				<select id="insertUploadFile" parameter="boardFile">	
+		VO(업로드 처리 요청 객체 추가): 
+			Board.java (MultipartFile report, String fname)
+			BoardFile.java(no, fname, regdte, uptdte, etc)		
+		화면단(파일 첨부 처리) : a02_insertBoard.jsp
+			<input type="file" name="report"/>
+		화면단(첨부된 리스트 처리) : a03_board.jsp
+			<input value="${board.fname}"
+			
+	
+	2) 환경 설정
+		파일업로드 컨테이너 선언
+			<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+		
+		파일업로드할 파일서버 경로 위치 공통 설정파일 선언
+			user.upload=C:/Users/user/git/board3/board/src/main/webapp/z01_upload/
+	3) DB 처리
+		테이블 생성
+			create table boardfile(
+				no number,
+				fname varchar2(500),
+				etc varchar2(500),
+				regdte date,
+				uptdte date
+			)
+		sql 작성
+			insert into boardfile(board_seq.currval,
+				'a01.txt','파일등록',sysdate,sysdte);
+			select fname
+			from boardfile
+			where no = 1000;
+		vo 
+			no, fname, etc, regdte, uptdte
+			board fname 추가
+		mybatis 공통
+			boardfile
+		dao
+			public void insertUploadFile(BoardFile f);
+			public String getBoardFile(int no);
+		mapper
+			<insert id="insertUploadFile" parametertype="boardfile">
+				insert into boardfile values(board_seq.currval, #{fname},#{etc},sysdate,sysdate)
+			</insert>
+			<select id="getBoardFile" parametertype="int">
+				select fname
+				from boardfile
+				where no = #{no}
+			</select>		
+	----------------------------------------------	
+	4) controller/service단 구현
+			@Value("${user.upload")
+			private String upload;
+	
+			private void uploadFile(MultiPartFile f){
+				String fname = report.getOriginalFilename();
+				File fObj = new File(upload+fname);
+				try{
+					f.transferTo(fObj);
+				}catch(Exception e){
+						System.out.println("업로드예외:"+e.getMessage());
+				}			
+			}
+			public void insertBoard(Board ins) {
+				String fname = ins.getReport().getOriginalFilename();
+				if( !fname.equals("") ){
+					uploadFile(ins.getReport());
+					BoardFile f = new BoardFile();
+					f.setFname(fname);
+					f.setEtc(ins.getTitle());
+					dao.insertUploadFile(f);
+				}
+				dao.insertBoard(ins);
+			}		
+			public Board getBoard(int no) {
+				Board b = dao.getBoard(no);
+				b.setFname(dao.getBoardFile(no));
+				return b;
+			}
+	5) 화면단 구현 
+
+# 게시판 상세화면에서 파일 다운로드
+
+
 		
 		
 					

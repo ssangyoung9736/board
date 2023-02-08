@@ -26,6 +26,13 @@
 		SELECT * FROM board
 		WHERE NO = #{no}			
 	</select>
-	
+	<insert id="insertUploadFile" parameterType="boardfile">
+		insert into boardfile values(board_seq.currval, #{fname},#{etc},sysdate,sysdate)
+	</insert>
+	<select id="getBoardFile" resultType="string" parameterType="int">
+		select fname
+		from boardfile
+		where no = #{no}
+	</select>		
 </mapper>		
 		
