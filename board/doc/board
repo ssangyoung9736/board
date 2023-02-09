@@ -543,7 +543,9 @@
 	/delBoard.do
 	2) jsp
 	location.href="delBoard.do?no="+no	
-11:05~					
+
+# 상세화면에서 첨부파일 수정처리
+				 
 		
  			
 		
