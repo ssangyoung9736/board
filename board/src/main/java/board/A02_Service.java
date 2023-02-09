@@ -56,5 +56,11 @@ public class A02_Service {
 		b.setFname(dao.getBoardFile(no));
 		return b;
 	}	
+	public void updateBoard(Board upt) {
+		dao.updateBoard(upt);
+	}
+	public void deleteBoard(int no){
+		dao.deleteBoard(no);
+	}
 	
 }

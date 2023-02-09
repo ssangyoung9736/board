@@ -48,5 +48,20 @@ public class A01_Controller {
 		d.addAttribute("downloadFile", fname);
 		return "downloadView";
 	}
-	
+	@PostMapping("/boardUpt.do")
+	public String boardUpt(Board upt, Model d) {
+		service.updateBoard(upt);
+		
+		
+		d.addAttribute("board",service.getBoard(upt.getNo()));
+		d.addAttribute("msg","수정완료");
+		return "a03_board";
+	}
+	// /delBoard.do
+	@GetMapping("/delBoard.do")
+	public String delBoard(@RequestParam("no") int no, Model d) {
+		service.deleteBoard(no);
+		d.addAttribute("msg", "삭제완료");
+		return "a03_board";
+	}
 }

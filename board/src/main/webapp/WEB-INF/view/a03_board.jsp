@@ -54,6 +54,18 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://developers.google.com/web/ilt/pwa/working-with-the-fetch-api" type="text/javascript"></script>
 <script type="text/javascript">
+	var msg = "${msg}"
+	if(msg=="수정완료"){
+		if(confirm(msg+" 전체조회화면 이동하시겠습니까?")){
+			location.href = "${path}/list.do";
+		}
+	}
+	if(msg=="삭제완료"){
+		alert(msg+" 전체조회화면 이동하겠습니다!");
+		location.href = "${path}/list.do";
+	}
+	
+
 	$(document).ready(function(){
 		<%-- 
 		
@@ -61,19 +73,24 @@
 		$("#goMain").click(function(){
 			location.href="${path}/list.do"			
 		});	
-		$("#uptBtn").click(function(){
-			
-		})
 		$("#delBtn").click(function(){
-			
+			location.href="${path}/delBoard.do?no="+$("[name=no]").val();
 		})
 		$("#repBtn").click(function(){
 			
 		})
-		var msg = "${msg}"
-		if(msg!=""){
-			alert(msg)
-		}
+		$("#uptBtn").click(function(){
+			if(confirm("수정하시겠습니까?")){
+				$("form").attr("action","${path}/boardUpt.do");
+				$("form").submit();
+			}
+		})	
+	  	$("#downFile").click(function(){
+	  		if(confirm($(this).val()+"을 다운로드하시겠습니까?")){
+	  			location.href="${path}/download.do?fname="+$(this).val()
+	  		}
+	  		
+	  	})		
 	});
 </script>
 </head>
@@ -162,12 +179,7 @@
 	         </div>
 		  </div>    
 		  <script type="text/javascript">
-		  	$("#downFile").click(function(){
-		  		if(confirm($(this).val()+"을 다운로드하시겠습니까?")){
-		  			location.href="${path}/download.do?fname="+$(this).val()
-		  		}
-		  		
-		  	})
+
 		  
 		  </script>      
           

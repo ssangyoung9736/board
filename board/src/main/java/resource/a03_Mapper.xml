@@ -10,13 +10,16 @@
 		where 1=1
 		and subject like '%'||#{subject}||'%'
 		and writer like '%'||#{writer}||'%'	
+		order by no desc
 	</select>
 	<insert id="insertBoard" parameterType="board">
 		INSERT INTO board values(board_seq.nextval,
 			#{refno}, #{subject},#{content},#{writer},
 			0, sysdate, sysdate)			
 	</insert>
-	<!-- 조회수 처리 -->	
+	<!-- 
+
+	조회수 처리 -->	
 	<update id="uptReadCnt" parameterType="int">
 		UPDATE BOARD 
 			SET READCNT = readcnt+1
@@ -33,6 +36,18 @@
 		select fname
 		from boardfile
 		where no = #{no}
-	</select>		
+	</select>
+	<update id= "updateBoard" parameterType="board">
+		update board
+		set content = #{content},
+			subject = #{subject},
+			uptdte = sysdate
+	   where no = #{no}			
+	</update> 
+	<delete id="deleteBoard" parameterType="int">
+		delete 
+		from board 
+		where no = #{no}
+	</delete>				
 </mapper>		
 		
