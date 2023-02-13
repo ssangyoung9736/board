@@ -49,14 +49,20 @@
  	-->
 </div>
 <div class="container">
-	<form id="frm01" class="form"  method="post">
   	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-	    <input name="subject" value="${sch.subject}" class="form-control mr-sm-2" placeholder="제목" />
-	    <input name="writer" value="${sch.writer}" class="form-control mr-sm-2" placeholder="내용" />
-	    <button class="btn btn-info" type="submit">Search</button>
-	    <button class="btn btn-success" id="regBtn" type="button">등록</button>
+  		<div class="container-fluid">
+		    <form id="frm01" class="d-flex"  method="post"> 			
+			    <input name="subject" value="${sch.subject}" class="form-control mr-sm-2" placeholder="제목" />
+			    <input name="writer" value="${sch.writer}" class="form-control mr-sm-2" placeholder="내용" />
+			    <button class="btn btn-success" id="regBtn" type="button">등록</button>
+			    &nbsp;
+			    <button class="btn btn-primary" type="submit">Search</button>
+			</form>   
+
+	    </div>
  	</nav>
-	</form>
+ 	
+
    <table class="table table-hover table-striped">
    	<col width="10%">
    	<col width="45%">
@@ -92,7 +98,13 @@
     	</c:forEach>
     </tbody>
 	</table>    
-    
+	<ul class="pagination  justify-content-end">
+	  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+	  <li class="page-item"><a class="page-link" href="#">1</a></li>
+	  <li class="page-item active"><a class="page-link" href="#">2</a></li>
+	  <li class="page-item"><a class="page-link" href="#">3</a></li>
+	  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+	</ul>    
 </div>
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">

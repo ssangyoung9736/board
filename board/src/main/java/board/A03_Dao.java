@@ -8,6 +8,7 @@ import board.vo.BoardSch;
 
 // board.A03_Dao
 public interface A03_Dao {
+	public int totCnt(BoardSch sch);
 	public List<Board> boardList(BoardSch sch);
 	public void insertBoard(Board ins);
 	public Board getBoard(int no);	

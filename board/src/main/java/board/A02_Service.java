@@ -19,6 +19,26 @@ public class A02_Service {
 	public List<Board> boardList(BoardSch sch){
 		if(sch.getSubject()==null) sch.setSubject("");
 		if(sch.getWriter()==null) sch.setWriter("");
+		// 1. 총페이지 수
+		sch.setCount(dao.totCnt(sch));
+		// 2. 현재페이지 번호(클릭한)
+		if(sch.getCurPage()==0) {
+			sch.setCurPage(1);
+		}
+		// 3. 한페이지에 보일 데이터 갯수
+		//   - 초기화면 현재 페이지 번호 0 ==> default설정
+		if(sch.getPageSize()==0) {
+			sch.setPageSize(5);
+		}
+		// 4. 총페이지 수.(전체데이터/한페이지에 보일 데이터 건수)
+		//    한번에 보일 데이터 건수 5건일 때, 총건수11 ==> 3페이지
+		sch.setPageCount(
+				(int)Math.ceil(
+				sch.getCount()/(double)sch.getPageSize())
+				);
+		// 5. 마지막 번호
+		sch.setEnd(sch.getCurPage()*sch.getPageSize());
+		sch.setStart((sch.getCurPage()-1)*sch.getPageSize()+1);
 		return dao.boardList(sch);
 	}
 
