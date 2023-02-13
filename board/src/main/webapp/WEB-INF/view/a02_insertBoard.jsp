@@ -123,7 +123,6 @@
 		        <label class="custom-file-label" for="file01">파일을 선택하세요!</label>
 			</div>
 		  </div>	
- 
                     
           <div class="mb-4"></div>
           <button id="regBtn" class="btn btn-primary btn-lg btn-block" type="button">게시물 등록</button>

@@ -45,8 +45,19 @@
 		WHERE NO = #{no}			
 	</select>
 	<insert id="insertUploadFile" parameterType="boardfile">
-		insert into boardfile values(board_seq.currval, #{fname},#{etc},sysdate,sysdate)
+		insert into boardfile values(board_seq.currval, 
+		#{fname},#{etc},sysdate,sysdate)
 	</insert>
+	<!-- public void uptBoardFile(BoardFile upt);	 -->
+	<update id="uptBoardFile" parameterType="boardfile">
+		update boardfile
+			set fname = #{fname},
+				uptdte = sysdate
+			where no = #{no}		
+	</update>
+	
+	
+	
 	<select id="getBoardFile" resultType="string" parameterType="int">
 		select fname
 		from boardfile

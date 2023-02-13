@@ -108,7 +108,7 @@
     <div class="input-form-backgroud row">
       <div class="input-form col-md-12 mx-auto">
         <h4 class="mb-3">게시판 상세</h4>
-        <form method="post" class="validation-form" novalidate>
+        <form method="post" enctype="multipart/form-data" class="validation-form" novalidate>
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="no">글번호</label>
@@ -186,9 +186,20 @@
             <div class="invalid-feedback">
               첨부파일 입력해주세요.
 	         </div>
-		  </div>    
-		  <script type="text/javascript">
+		  </div>  
+          <div class="mb-3">
+         	<div class="custom-file">
+		        <input type="file" name="report" class="custom-file-input" id="file01">
+		        <label class="custom-file-label" for="file01">
+		        	${empty board.fname?'첨부 파일을 선택하세요':' 수정시 선택'}</label>
+			</div>
+		  </div>	
 
+		  <script type="text/javascript">
+	         $(".custom-file-input").on("change",function(){
+	         	$(this).next(".custom-file-label").text($(this).val())
+	          })			  
+	 		    
 		  
 		  </script>      
           
