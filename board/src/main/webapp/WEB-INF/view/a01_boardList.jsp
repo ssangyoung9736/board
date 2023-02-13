@@ -56,7 +56,10 @@
 			    <input name="writer" value="${sch.writer}" class="form-control mr-sm-2" placeholder="내용" />
 			    <button class="btn btn-success" id="regBtn" type="button">등록</button>
 			    &nbsp;
-			    <button class="btn btn-primary" type="submit">Search</button>
+			    <button class="btn btn-info" type="submit">Search</button>
+			    
+			    <input type="hidden" name="curPage" value="${sch.curPage}"/>
+			    
 			</form>   
 
 	    </div>
@@ -98,41 +101,19 @@
     	</c:forEach>
     </tbody>
 	</table>    
-	<ul class="pagination  justify-content-end">
-	  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-	  <li class="page-item"><a class="page-link" href="#">1</a></li>
-	  <li class="page-item active"><a class="page-link" href="#">2</a></li>
-	  <li class="page-item"><a class="page-link" href="#">3</a></li>
-	  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+	<ul class="pagination  justify-content-end"> 
+		<c:forEach var="cnt" begin="1" end="${sch.pageCount}">
+	  		<li class="page-item ${sch.curPage==cnt?'active':''}">
+	  		<a class="page-link" 
+	  			href="javascript:goPage(${cnt});">${cnt}</a></li>
+	  	</c:forEach>
 	</ul>    
-</div>
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">타이틀</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-		<form id="frm02" class="form"  method="post">
-	     <div class="row">
-	      <div class="col">
-	        <input type="text" class="form-control" placeholder="사원명 입력" name="ename">
-	      </div>
-	      <div class="col">
-	        <input type="text" class="form-control" placeholder="직책명 입력" name="job">
-	      </div>
-	     </div>
-	    </form> 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
+	<script type="text/javascript">
+		function goPage(cnt){
+			$("[name=curPage]").val(cnt);
+			$("form").submit()
+		}
+	</script>
 </div>
 </body>
 </html>
