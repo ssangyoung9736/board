@@ -77,7 +77,14 @@
 			location.href="${path}/delBoard.do?no="+$("[name=no]").val();
 		})
 		$("#repBtn").click(function(){
+			$("[name=refno]").val($("[name=no]").val())
+			$("[name=subject]").val("RE:"+
+					$("[name=subject]").val())
+			$("[name=content]").val(
+					"\n\n\n\n==== 이전글 ===\n"+$("[name=content]").val())
+			$("form").attr("action","${path}/insertFrm.do")
 			
+			$("form").submit()
 		})
 		$("#uptBtn").click(function(){
 			if(confirm("수정하시겠습니까?")){

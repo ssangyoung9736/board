@@ -23,7 +23,7 @@ public class A01_Controller {
 		d.addAttribute("list", service.boardList(sch));
 		return "a01_boardList";
 	}
-	@GetMapping("/insertFrm.do")
+	@RequestMapping("/insertFrm.do")
 	public String inserFrm(){
 		return "a02_insertBoard";
 	}

@@ -585,6 +585,42 @@
 			connect by prior empno = mgr;
 	2) 답글 처리 데이터 저장 프로세스
 3. 개발 순서
+	1) 상세 프로세스 정의
+		- 상세화면에서 답글 클릭시, 기존 글등록화면으로 전환되면서 
+			현재 글번호는 답글번호로, 제목은 RE:가 붙어서 처리되고,
+			글 내용 하단에 === 이전 글 === 표시로 이전 글이 표시되면서
+			글 등록 화면이 나타난다.
+		- 글 등록화면 내용에서 변경할 내용을 입력 후,
+		- 등록 처리하면 글 등록 프로세스를 처리되어 
+		- DB에 no : 새로운 sequence번호,  refno : 이전글번호가
+			등록되어 처리된다
+		- 조회 화면에서 계층형 sql을 이용해서 상위 글 밑에 해당 답글이
+			처리된 것을 알 수 있다.
+	2) 개발 진행
+		- 답글 클릭시, form 요소데이터의 변경 및 submit로 글 등록으로 요청값 전달.
+			$("[name=refno]").val($("[name=no]").val())
+			$("[name=subject]").val("RE:"+$("[name=subject]").val())
+			$("[name=content]").val("\n\n\n=== 이전글 ===\n"
+								+$("[name=content]").val())
+			$("form").attr("action","${path}/insert.do");
+			$("form").submit()
+		- 등록 처리 프로세스로 진행..
+		- 계층형 sql  작성(mapper)
+			select rownum cnt, level 
+				: 글을 순서별로 numbering, level : 계층 레벨처리
+			start with refno = 0
+			connect by prior no = refno
+			order siblings by no desc 
+			-- 최근 등록된 글을 가장 먼저 나오게 처리(계층별)
+		- VO(BoardSch) 추가 cnt, level
+		- 화면단 처리
+			no ==> cnt,
+			level을 기준으로 왼쪽 들여쓰기 처리(계층 레벨에 따른 간격 추가)
+				
+							
+
+
+
 
 # 페이징 처리
 
