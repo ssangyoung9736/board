@@ -5,6 +5,8 @@ import java.util.Date;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Board {
+	private int cnt;
+	private int level;
 	private int no;// 글번호 
 	private int refno;// 답글번호
 	private String subject;// 제목
@@ -15,6 +17,19 @@ public class Board {
 	private Date uptdte;// 수정일
 	private String fname;
 	private MultipartFile report;
+	
+	public int getCnt() {
+		return cnt;
+	}
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
+	public int getLevel() {
+		return level;
+	}
+	public void setLevel(int level) {
+		this.level = level;
+	}
 	public int getNo() {
 		return no;
 	}

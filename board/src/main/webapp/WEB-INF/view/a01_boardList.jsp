@@ -76,8 +76,16 @@
     <tbody>
     	<c:forEach var="board" items="${list}">
     	<tr  ondblclick="goDetail(${board.no})">
-    		<td>${board.no}</td>
-    		<td>${board.subject}</td>
+    		<td>${board.cnt}</td>
+    		<td style="text-align:left;">
+    			<c:if test="${board.level>1}">		
+	      			<c:forEach begin="2" end="${board.level}">
+	    				&nbsp;&nbsp;&nbsp;
+	    			</c:forEach>  
+    				<img src="${path}/a01_img/re.png" 
+    					width="5%" height="5%">
+    			</c:if>
+    			${board.subject}</td>
     		<td>${board.writer}</td>
     		<td><fmt:formatDate value="${board.regdte}"/></td>
     		<td>${board.readcnt}</td></tr>

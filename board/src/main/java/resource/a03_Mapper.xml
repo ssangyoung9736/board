@@ -5,12 +5,14 @@
 <mapper namespace="board.A03_Dao">
 	<select id="boardList" resultType="board"
 		parameterType="boardsch">
-		select *
-		from board
+		select rownum cnt, level, b.*
+		from board b
 		where 1=1
 		and subject like '%'||#{subject}||'%'
 		and writer like '%'||#{writer}||'%'	
-		order by no desc
+		START WITH refno =0
+		CONNECT BY PRIOR NO =refno
+		ORDER siblings BY NO DESC		
 	</select>
 	<insert id="insertBoard" parameterType="board">
 		INSERT INTO board values(board_seq.nextval,

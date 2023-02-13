@@ -612,7 +612,17 @@
 			connect by prior no = refno
 			order siblings by no desc 
 			-- 최근 등록된 글을 가장 먼저 나오게 처리(계층별)
-		- VO(BoardSch) 추가 cnt, level
+			mapper 처리 내용
+			select rownum cnt, level, b.*
+			from board b
+			where 1=1
+			and subject like '%'||#{subject}||'%'
+			and writer like '%'||#{writer}||'%'	
+			START WITH refno =0
+			CONNECT BY PRIOR NO =refno
+			ORDER siblings BY NO DESC			
+			
+		- VO(Board) 추가 cnt, level
 		- 화면단 처리
 			no ==> cnt,
 			level을 기준으로 왼쪽 들여쓰기 처리(계층 레벨에 따른 간격 추가)
