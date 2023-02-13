@@ -191,7 +191,7 @@
          	<div class="custom-file">
 		        <input type="file" name="report" class="custom-file-input" id="file01">
 		        <label class="custom-file-label" for="file01">
-		        	${empty board.fname?'첨부 파일을 선택하세요':board.fname+=' 수정시 선택'}</label>
+		        	${empty board.fname?'첨부 파일을 선택하세요':'수정시 선택'}</label>
 			</div>
 		  </div>	
 

@@ -50,14 +50,17 @@
 	</insert>
 	<!-- public void uptBoardFile(BoardFile upt);	 -->
 	<update id="uptBoardFile" parameterType="boardfile">
-		update boardfile
-			set fname = #{fname},
+    merge into boardfile  a
+	     using BOARD b
+	        on (a.no = b.no)
+	      when matched then    
+		update set fname = #{fname},
 				uptdte = sysdate
-			where no = #{no}		
+			   where no = #{no}	
+		  when not matched then
+			insert values(b.no, 
+					#{fname},b.subject,sysdate,sysdate)		     			
 	</update>
-	
-	
-	
 	<select id="getBoardFile" resultType="string" parameterType="int">
 		select fname
 		from boardfile

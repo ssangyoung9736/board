@@ -88,13 +88,13 @@ public class A02_Service {
 	public void insertBoard(Board ins) {
 		dao.insertBoard(ins);
 		String fname = ins.getReport().getOriginalFilename();
-		//if( !fname.equals("") ){
+		if( !fname.equals("") ){
 			uploadFile(ins.getReport());
 			BoardFile f = new BoardFile();
 			f.setFname(fname);
 			f.setEtc(ins.getSubject());
 			dao.insertUploadFile(f);
-		//}
+		}
 		
 	}		
 	public Board getBoard(int no) {
@@ -106,12 +106,15 @@ public class A02_Service {
 	public void updateBoard(Board upt) {
 		dao.updateBoard(upt);
 		String fname = upt.getReport().getOriginalFilename();
-		uploadFile(upt.getReport());
-		BoardFile f = new BoardFile();
-		f.setNo(upt.getNo());
-		f.setFname(fname);
-		f.setEtc(upt.getSubject());
-		dao.uptBoardFile(f);		
+		if( !fname.equals("") ){
+			uploadFile(upt.getReport());
+			BoardFile f = new BoardFile();
+			f.setNo(upt.getNo());
+			f.setFname(fname);
+			f.setEtc(upt.getSubject());
+			
+			dao.uptBoardFile(f);
+		}
 	}
 	public void deleteBoard(int no){
 		dao.deleteBoard(no);
