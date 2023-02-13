@@ -38,6 +38,11 @@
 	function goDetail(no){
 		location.href="${path}/board.do?no="+no
 	}	
+	function goPage(cnt){
+		$("[name=curPage]").val(cnt);
+		$("form").submit()
+	}	
+	
 </script>
 </head>
 
@@ -102,18 +107,19 @@
     </tbody>
 	</table>    
 	<ul class="pagination  justify-content-end"> 
-		<c:forEach var="cnt" begin="1" end="${sch.pageCount}">
+		<li class="page-item"><a class="page-link" 
+			href="javascript:goPage(${sch.startBlock-1});">Previous</a></li>
+	
+		<c:forEach var="cnt" begin="${sch.startBlock}" 
+				end="${sch.endBlock}">
 	  		<li class="page-item ${sch.curPage==cnt?'active':''}">
 	  		<a class="page-link" 
 	  			href="javascript:goPage(${cnt});">${cnt}</a></li>
 	  	</c:forEach>
+	  	<li class="page-item"><a class="page-link" 
+	  			href="javascript:goPage(${sch.endBlock+1});">Next</a></li>
+	  	
 	</ul>    
-	<script type="text/javascript">
-		function goPage(cnt){
-			$("[name=curPage]").val(cnt);
-			$("form").submit()
-		}
-	</script>
 </div>
 </body>
 </html>

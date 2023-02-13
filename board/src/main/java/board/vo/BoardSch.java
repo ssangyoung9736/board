@@ -13,7 +13,29 @@ public class BoardSch {
 	private int end; // 현재 페이지 마지막번호
 	
 	// 3. 페이지 처리 2단계(블럭)
+	private int blockSize;	// 한번에 보여줄 block의 크기
+	private int startBlock;	// block 시작번호
+	private int endBlock;	// block 마지막번호
 	
+	
+	public int getBlockSize() {
+		return blockSize;
+	}
+	public void setBlockSize(int blockSize) {
+		this.blockSize = blockSize;
+	}
+	public int getStartBlock() {
+		return startBlock;
+	}
+	public void setStartBlock(int startBlock) {
+		this.startBlock = startBlock;
+	}
+	public int getEndBlock() {
+		return endBlock;
+	}
+	public void setEndBlock(int endBlock) {
+		this.endBlock = endBlock;
+	}
 	public String getSubject() {
 		return subject;
 	}
