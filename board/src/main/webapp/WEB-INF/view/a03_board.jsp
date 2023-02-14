@@ -110,7 +110,7 @@
 			$("[name=content]").val(
 					"\n\n\n\n==== 이전글 ===\n"+$("[name=content]").val())
 			$("form").attr("action","${path}/insertFrm.do")
-			
+			alert("답글을 달겠습니까?")
 			$("form").submit()
 		})
 
