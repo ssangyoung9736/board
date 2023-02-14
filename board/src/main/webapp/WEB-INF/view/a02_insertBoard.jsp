@@ -95,7 +95,7 @@
       <div class="input-form col-md-12 mx-auto">
         <h4 class="mb-3">게시판 등록</h4>
         <form method="post"  enctype="multipart/form-data"  action="${path}/insert.do" class="validation-form" novalidate>
-        	<input type="hidden" name="refno" value="0"/>
+        	<input type="hidden" name="refno" value="${empty param.refno?'0':param.refno}"/>
           <div class="mb-3">
             <label for="subject">제목</label>
             <input name="subject" type="text" value="${param.subject}" class="form-control  ckValid" id="subject" placeholder="제목 입력" required>
