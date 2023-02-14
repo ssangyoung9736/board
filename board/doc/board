@@ -829,7 +829,7 @@ blocknum	페이지번호
 			public Member login(Member m);
 		mapper
 		service
-	---------------------------------------------
+	-----------다 됐거나, 시간이 어느 정도 경과해서 풀이가 필요----------------------------------
 		
 	2) 로그인 controller 처리 session 처리 HttpSession session
 		- 로그인 form
