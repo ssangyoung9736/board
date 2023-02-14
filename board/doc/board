@@ -829,16 +829,36 @@ blocknum	페이지번호
 			public Member login(Member m);
 		mapper
 		service
-	-----------다 됐거나, 시간이 어느 정도 경과해서 풀이가 필요----------------------------------
 		
 	2) 로그인 controller 처리 session 처리 HttpSession session
+		/loginFrm.do
+		/login.do
+		a04_login.jsp
 		- 로그인 form
 		- 로그인 처리기능 메서드
-	
+		화면단
+		로그인 성공/로그인 실패
+		
 	3) 화면단(각 화면)
 		session 값을 id가 없는 경우에 로그인 화면 controller 화면으로 이동하게 처리
+		
+		var sessId = "${mem.id}"
+		if(sessId==""){
+			alert("로그인을 하여야 합니다\n로그인 화면이동");
+			location.href="${path}/loginFrm.do"
+		}
 	4) 등록화면에서 session 이름을 등록시, 작성자를 등록되게 한다.
+		<input value="${mem.name}" readonly	
 	5) 상세화면에서 수정/삭제 버튼 클릭시, session 이름을 비교하여 처리하게 한다.
+		<input value="${mem.name}" readonly	
+		var sessName = "${mem.name}"
+		if(sessName != $("[name=writer]").val()){
+			alert("수정 권한이 없습니다\n수정은 작성자만 가능합니다");
+			//alert("삭제 권한이 없습니다\n삭제는 작성자만 가능합니다");
+			return;
+		}
+		
+	
 		
 		
 		

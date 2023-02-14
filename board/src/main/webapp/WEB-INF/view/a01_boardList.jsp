@@ -27,6 +27,11 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://developers.google.com/web/ilt/pwa/working-with-the-fetch-api" type="text/javascript"></script>
 <script type="text/javascript">
+	var sessId = "${mem.id}"
+	if(sessId==""){
+		alert("로그인을 하여야 합니다\n로그인 화면이동");
+		location.href="${path}/loginFrm.do"
+	}
 	$(document).ready(function(){
 		<%-- 
 		
@@ -54,6 +59,7 @@
  	-->
 </div>
 <div class="container">
+	<p align="right">${mem.name}님 로그인 중</p>
   	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
   		<div class="container-fluid">
 		    <form id="frm01" class="d-flex"  method="post"> 			
@@ -66,7 +72,7 @@
 			    <input type="hidden" name="curPage" value="${sch.curPage}"/>
 			    
 			</form>   
-
+	
 	    </div>
  	</nav>
  	

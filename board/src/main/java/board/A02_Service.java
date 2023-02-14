@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import board.vo.Board;
 import board.vo.BoardFile;
 import board.vo.BoardSch;
+import board.vo.Member;
 
 @Service
 public class A02_Service {
@@ -97,7 +98,6 @@ public class A02_Service {
 			f.setEtc(ins.getSubject());
 			dao.insertUploadFile(f);
 		}
-		
 	}		
 	public Board getBoard(int no) {
 		Board b = dao.getBoard(no);
@@ -107,6 +107,7 @@ public class A02_Service {
 	}	
 	public void updateBoard(Board upt) {
 		dao.updateBoard(upt);
+		
 		String fname = upt.getReport().getOriginalFilename();
 		if( !fname.equals("") ){
 			uploadFile(upt.getReport());
@@ -114,12 +115,15 @@ public class A02_Service {
 			f.setNo(upt.getNo());
 			f.setFname(fname);
 			f.setEtc(upt.getSubject());
-			// merge를 이용하면 fname만 추가 해도 됨..
 			dao.uptBoardFile(f);
 		}
+		
 	}
 	public void deleteBoard(int no){
 		dao.deleteBoard(no);
+	}
+	public Member login(Member m) {
+		return dao.login(m);
 	}
 	
 }

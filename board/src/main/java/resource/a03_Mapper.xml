@@ -51,7 +51,8 @@
 	<!-- public void uptBoardFile(BoardFile upt);	 -->
 	<update id="uptBoardFile" parameterType="boardfile">
     merge into boardfile  a
-	     using (SELECT '${fname}' fname, ${no} NO, '${etc}' subject  FROM dual) b
+	     using (SELECT '${fname}' fname, ${no} NO, '${etc}' subject  
+	     		FROM dual) b
 	        on (a.no = b.no)
 	      when matched then    
 		update set fname = b.fname,
@@ -76,6 +77,13 @@
 		delete 
 		from board 
 		where no = #{no}
-	</delete>				
+	</delete>		
+	<!-- public Member login(Member m); -->		
+	<select id="login" parameterType="member" resultType="member">
+		select *
+		from member
+		where id =#{id}
+		and pass = #{pass}	
+	</select>
 </mapper>		
 		
