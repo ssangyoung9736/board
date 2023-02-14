@@ -1,5 +1,5 @@
 package board.vo;
-
+// board.vo.Member
 public class Member {
 	private String id;
 	private String pass;
