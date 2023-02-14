@@ -626,6 +626,30 @@
 		- 화면단 처리
 			no ==> cnt,
 			level을 기준으로 왼쪽 들여쓰기 처리(계층 레벨에 따른 간격 추가)
+# 계층적 sql에 대한 이해
+			select b.*
+			from board b
+			where 1=1;
+-- 계층적 sql은 통해서 답글이 원래글 밑에
+/* 계층적 sql 
+			START WITH refno =0  :계층 트리의 최상위 부분 설정
+			CONNECT BY PRIOR NO =refno : 계층 트리를 처리하는 조건
+ * */
+			select rownum cnt, level, b.*
+			from board b
+			where 1=1
+			START WITH refno =0
+			CONNECT BY PRIOR NO =refno;	
+-- ORDER siblings BY NO DESC 역순위 처리..	
+-- level : 계층형 sql을 사용하는 것으로 공백 간격을 계층 레벨에 따라 처리하기 위한 내용이다.	
+			select rownum cnt, level, b.*
+			from board b
+			where 1=1
+			START WITH refno =0
+			CONNECT BY PRIOR NO =refno
+			ORDER siblings BY NO DESC;
+
+
 
 # 페이징 처리
 1. 기능
@@ -725,7 +749,7 @@ blocknum	페이지번호
 1	   [이전]	1 2 3 4 5 [이후] 시작블럭번호 1 마지막블럭번호 5
 2	   [이전]	6 7 8 9 10[이후] 시작블럭번호 6 마지막블럭번호 10  
 3	   [이전]	1112131415[이후] 시작블럭번호 11 마지막블럭번호 15  
-4	   [이전]	1617181920[이후] 시작블럭번호 16 마지막블럭번호 20
+4	   [이전]	161718    [이후] 시작블럭번호 16 마지막블럭번호 20
 			3. 마지막 블럭번호.
 			   blocknum * 블럭크기
 			   예외사항 pageCount(총페이지수를 넘는경우는)
@@ -760,14 +784,24 @@ blocknum	페이지번호
 	2) 수정 클릭시, controller단 수정 처리를 호출하면서
 	3) service단 수정 처리를 수행 한다.
 		파일 정보 수정 update 처리(DB수정)
+			merge를 이용하여 첨부파일이 없는 경우에는 insert처리
+						   첨부파일이 있는 경우에는 update처리
 		수정된 파일을 해당 폴드에 업로드한다.(물리적 파일 위치로 업로드)
 2. 개발순서
 	0) 등록시, 공백이라도 해당 파일정보를 등록되게 한다.
-		service단 파일 공백 조건 없애기
+
 	1) DB 파일 정보 수정 처리.
-		update boardfile
-			set fname = #{fname}
-			where no = #{no}
+	    merge into boardfile  a     # 수정하거나 등록할 테이블
+		     using BOARD b          # 위 수정/등록을 위해 비교할 테이블
+		        on (a.no = b.no)    # 수정 등록의 조건
+		      when matched then    
+			update set fname = #{fname},
+					uptdte = sysdate
+				   where no = #{no}	
+			  when not matched then
+				insert values(b.no, 
+						#{fname},b.subject,sysdate,sysdate)	
+
 		public void uptBoardFile(BoardFile upt);	
 	2) 서비스단에서 수정시도 파일업로드 프로세스 처리
 		DB처리
@@ -776,7 +810,41 @@ blocknum	페이지번호
 
 
 # 로그세션으로 처리하는 게시판 권한 관리
-
+1. 주요 기능
+	1) 게시판에서 로그인한 session 없으면 로그인 화면으로 이동한다.
+	2) 로그인 화면에서 로그인 하면 로그인 권한과 세션값을 가지고 있다.
+	3) 로그인 후 게시판을 작성하면 작성자가 session값에 있는 회원명으로 등록이 된다.(입력으로 등록하지 않음)
+	4) 게시판을 수정 삭제시, session 을 확인해서 session 회원명과 동일한 경우에서 수정 삭제 된다.
+		- 이 경우, 동명이인이 있을 수 있을 경우 session의 id명을 DB에서도 처리하여 비교한다.
+2. 개발 순서
+	1) 로그인 DB 처리
+		sql 작성		
+			SELECT * 
+			FROM MEMBER
+			WHERE id='himan'
+			AND pass = '7777'
+		vo
+		공통 mybatis
+		dao
+			public Member login(Member m);
+		mapper
+		service
+	---------------------------------------------
+		
+	2) 로그인 controller 처리 session 처리 HttpSession session
+		- 로그인 form
+		- 로그인 처리기능 메서드
+	
+	3) 화면단(각 화면)
+		session 값을 id가 없는 경우에 로그인 화면 controller 화면으로 이동하게 처리
+	4) 등록화면에서 session 이름을 등록시, 작성자를 등록되게 한다.
+	5) 상세화면에서 수정/삭제 버튼 클릭시, session 이름을 비교하여 처리하게 한다.
+		
+		
+		
+		
+		
+		
 				 
 		
  			

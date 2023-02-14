@@ -32,6 +32,8 @@ public class A02_Service {
 		}
 		// 4. 총페이지 수.(전체데이터/한페이지에 보일 데이터 건수)
 		//    한번에 보일 데이터 건수 5건일 때, 총건수11 ==> 3페이지
+		//    100건?  100/5 ==> 20 page 필요
+		//    101건?  101/5 ==> 21 page 필요(올림처리 필요)
 		sch.setPageCount(
 				(int)Math.ceil(
 				sch.getCount()/(double)sch.getPageSize())
@@ -112,7 +114,7 @@ public class A02_Service {
 			f.setNo(upt.getNo());
 			f.setFname(fname);
 			f.setEtc(upt.getSubject());
-			
+			// merge를 이용하면 fname만 추가 해도 됨..
 			dao.uptBoardFile(f);
 		}
 	}

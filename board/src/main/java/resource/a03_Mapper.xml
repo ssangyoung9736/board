@@ -51,15 +51,14 @@
 	<!-- public void uptBoardFile(BoardFile upt);	 -->
 	<update id="uptBoardFile" parameterType="boardfile">
     merge into boardfile  a
-	     using BOARD b
+	     using (SELECT '${fname}' fname, ${no} NO, '${etc}' subject  FROM dual) b
 	        on (a.no = b.no)
 	      when matched then    
-		update set fname = #{fname},
+		update set fname = b.fname,
 				uptdte = sysdate
-			   where no = #{no}	
 		  when not matched then
 			insert values(b.no, 
-					#{fname},b.subject,sysdate,sysdate)		     			
+					b.fname,b.subject,sysdate,sysdate)	
 	</update>
 	<select id="getBoardFile" resultType="string" parameterType="int">
 		select fname
