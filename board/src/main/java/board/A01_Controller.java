@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import board.vo.Board;
 import board.vo.BoardSch;
@@ -83,6 +84,19 @@ public class A01_Controller {
 		d.addAttribute("msg",msg);
 		return "a04_login";
 	}
+	// $("#logOut").click(function(){
+	// 		if(confirm("로그아웃하시겠습니까?"))
+	//			location.href="${path}/logout.do"
+	// 로그 아웃시 session  종료
+	@GetMapping("/logout.do")
+	public String logout(HttpSession session, Model d) {
+		if(session.getAttribute("mem")!=null) {
+			session.removeAttribute("mem");
+		}
+		//d.addAttribute("msg", "로그아웃 완료");
+		return "a04_login";
+	}
+	
 	
 	
 }

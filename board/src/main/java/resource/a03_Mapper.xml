@@ -48,7 +48,12 @@
 		insert into boardfile values(board_seq.currval, 
 		#{fname},#{etc},sysdate,sysdate)
 	</insert>
-	<!-- public void uptBoardFile(BoardFile upt);	 -->
+	<!-- public void uptBoardFile(BoardFile upt);	
+	# 동적 query
+	String sql = "select " + fname + " fname, "+no+" no.."
+	# board와 boradfile 의 데이터 비교
+	1. 첨부파일이 있을 때, 없을 때를 구분하여 update/insert 동시 처리	
+	 -->
 	<update id="uptBoardFile" parameterType="boardfile">
     merge into boardfile  a
 	     using (SELECT '${fname}' fname, ${no} NO, '${etc}' subject  

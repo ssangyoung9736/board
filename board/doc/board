@@ -823,11 +823,15 @@ blocknum	페이지번호
 			FROM MEMBER
 			WHERE id='himan'
 			AND pass = '7777'
-		vo
-		공통 mybatis
+		vo  Member
+		공통 mybatis member
 		dao
 			public Member login(Member m);
 		mapper
+			SELECT * 
+			FROM MEMBER
+			WHERE id=#{id}
+			AND pass = #{pass}		
 		service
 		
 	2) 로그인 controller 처리 session 처리 HttpSession session
