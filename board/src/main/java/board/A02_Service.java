@@ -65,7 +65,8 @@ public class A02_Service {
 		
 		sch.setEndBlock(endBlock);
 		//	  4) 시작 블럭
-		sch.setStartBlock((blocknum-1)*sch.getBlockSize()+1);
+		if(blocknum!=0)
+			sch.setStartBlock((blocknum-1)*sch.getBlockSize()+1);
 		// 
 		
 		
