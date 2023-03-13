@@ -24,3 +24,22 @@
 	 AND subject LIKE '%'||''||'%'
 	 AND writer LIKE '%'||''||'%'
 	 order by regdte desc;
+	create table boardfile(
+			no number,
+			fname varchar2(500),
+			etc varchar2(500),
+			regdte date,
+			uptdte date
+	)
+	insert into boardfile(board_seq.currval,
+			'a01.txt','파일등록',sysdate,sysdte);
+	select fname
+		from boardfile
+		where no = 1000;	 
+	 
+/*
+조별로 고정 ip 주소에 복사해서 테이블 생성.
+
+ * */	 
+	 
+	 
